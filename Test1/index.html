@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        
+        <title>Ejemplo de página html</title>
+        
+        <script type="text/javascript" charset="utf-8">
+            function pageLoaded(){
+                // Obtener el manejador del objeto canvas
+                var canvas = document.getElementById('testcanvas');
+                
+                // Obtener el contexto 2D para este canvas
+                var context = canvas.getContext('2d');
+                
+                // Nuestro codigo de los dibujos
+                context.strokeRect(110,10,50,50);
+                
+                context.beginPath();
+                
+                context.arc(100,300,40,0,Math.PI,true);
+                context.fillStyle = "rgb(255,120,10)"
+                context.fill();
+                
+                context.font = '12pt Times New Roman'
+                context.fillText('This is some text...',10,140)
+                
+                var image = document.getElementById('spaceship');
+                context.drawImage(image,0,350);
+                
+                context.translate(250,370);
+                context.rotate(Math.PI/3);
+                context.drawImage(image,0,0,60,50,-30,-25,60,50);
+            }
+        </script>
+        
+    </head>
+    <body onLoad="pageLoaded();">
+        <canvas width="600" height="400" id="testcanvas" style="border: 1px solid black;">
+            Tu navegador no soporta la etiqueta Canvas de HTML5, utilize otro
+        </canvas>
+        <br>
+        <img src="./spaceship.png" id="spaceship" style="opacity: 0"/>
+        
+        <audio src = "audio.mp3" controls = "controls" autoplay = true style = "opacity: 0">
+            Tu navegador no soporta la etiqueta Canvas de HTML5, utilize otro
+        </audio>
+    </body>      
+</html>
