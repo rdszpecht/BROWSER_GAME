@@ -47,7 +47,7 @@ var game = {
 		loader.init();
 		mouse.init();
 
-		game.backgroundMusic = loader.loadSound('audio/background-music');
+		game.backgroundMusic = loader.loadSound('audio/space');
 
 		game.slingshotReleasedSound = loader.loadSound("audio/released");
 		game.bounceSound = loader.loadSound('audio/bounce');
@@ -239,7 +239,7 @@ var game = {
 			// Follow the fruit with the camera
 			var heroX = game.currentHero.GetPosition().x*box2d.scale;
 			game.panTo(heroX);
-
+            
 			// Wait till the fruit dies D:
 			if((!game.currentHero.IsAwake()) || 
                     (heroX<0) || 
@@ -249,11 +249,15 @@ var game = {
 				game.currentHero = undefined;
 				game.mode = "load-next-hero";
 			}else{ 
-                // ---- CTRL+F, borrar, brakpoint buscar
-                    if(mouse.down && game.currentHero.m_userData.havePower){
-                        game.currentHero.m_linearVelocity.x = game.currentHero.m_linearVelocity.x * 3;
-                        game.currentHero.m_userData.havePower = false;
-                    }
+                if(mouse.down && game.currentHero.m_userData.havePower){
+                    game.currentHero.m_linearVelocity.x = game.currentHero.m_linearVelocity.x * 1.5;
+                    game.currentHero.m_userData.havePower = false;
+                }
+                game.countHeroesAndVillains();
+                if(game.villains.length == 0){
+                    game.mode = "level-success";
+                    return;
+                }
             }
 		}
 
@@ -287,10 +291,10 @@ var game = {
 		}
 
 			if(game.mode=="level-success" || game.mode=="level-failure"){
-				if(game.panTo(0)){
+				//if(game.panTo(0)){
 					game.ended = true;
 					game.showEndingScreen();
-				}
+				// }
 			}
 	  	},
 		showEndingScreen:function(){
@@ -481,24 +485,215 @@ var levels = {
         },
         {
             // Level #4
-            foreground:'desert-foreground',
+            foreground:'bk-foreground',
             background:'clouds-background',
             entities:[
                 {type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
                 {type:"ground", name:"wood", x:185,y:390,width:30,height:80,isStatic:true},
 
-                {type:"block", name:"wood", x:520,y:380,angle:90,width:100,height:25},
-                {type:"block", name:"glass", x:520,y:280,angle:90,width:100,height:25},
-                {type:"villain", name:"burger",x:520,y:205,calories:590},
+                {type:"villain", name:"whooper", x:620,y:205,calories:2000},
 
-                {type:"block", name:"wood", x:620,y:380,angle:90,width:100,height:25},
-                {type:"block", name:"glass", x:620,y:280,angle:90,width:100,height:25},
-                {type:"villain", name:"fries", x:620,y:205,calories:420},
-
+                {type:"hero", name:"apple",x:110,y:405},
                 {type:"hero", name:"pineapple",x:140,y:405},
                 {type:"hero", name:"water",x:200,y:405},
             ]
-        }
+        },
+        {
+            // Level #5
+            foreground:'kinder-foreground',
+			background:'clouds-background',
+			entities:[
+				{type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
+				{type:"ground", name:"wood", x:185,y:390,width:30,height:80,isStatic:true},
+                
+                {type:"block", name:"gum", x:820,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"gum", x:720,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"gum", x:620,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"gum", x:670,y:317.5,width:100,height:25},
+				{type:"block", name:"gum", x:770,y:317.5,width:100,height:25},
+                
+                {type:"block", name:"gum", x:560,y:380,angle:135,width:130,height:25},
+                
+				{type:"block", name:"gum", x:820,y:255,angle:90,width:100,height:25},
+				{type:"block", name:"gum", x:720,y:255,angle:90,width:100,height:25},
+				{type:"block", name:"gum", x:620,y:255,angle:90,width:100,height:25},
+				{type:"block", name:"gum", x:670,y:192.5,width:100,height:25},
+				{type:"block", name:"gum", x:770,y:192.5,width:100,height:25},
+
+				{type:"block", name:"gum", x:670,y:130,angle:90,width:100,height:25},
+				{type:"block", name:"gum", x:770,y:130,angle:90,width:100,height:25},
+				{type:"block", name:"gum", x:720,y:67.5,width:100,height:25},
+
+				{type:"villain", name:"sodacan",x:715,y:30,calories:590},
+				{type:"villain", name:"burger",x:670,y:280,calories:420},
+				{type:"villain", name:"candy",x:765,y:215,calories:150},
+                {type:"villain", name:"pizza",x:715,y:155,calories:350},
+                
+				{type:"hero", name:"strawberry",x:30,y:415},
+				{type:"hero", name:"orange",x:80,y:405},
+                {type:"hero", name:"pineapple",x:140,y:405},
+				{type:"hero", name:"apple",x:200,y:405},
+			],
+        },
+        {   // Level #6
+            foreground:'candyland',
+            background:'clouds-background',
+            entities:[
+                {type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
+                {type:"ground", name:"choco", x:185,y:390,width:30,height:80,isStatic:true},
+
+                {type:"block", name:"choco", x:820,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"choco", x:720,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"choco", x:620,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"choco", x:520,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"choco", x:570,y:317.5,width:100,height:25},
+                {type:"block", name:"choco", x:670,y:317.5,width:100,height:25},
+                {type:"block", name:"choco", x:770,y:317.5,width:100,height:25},
+
+                {type:"block", name:"choco", x:570,y:255,angle:90,width:100,height:25},
+                {type:"block", name:"choco", x:670,y:255,angle:90,width:100,height:25},
+                {type:"block", name:"choco", x:770,y:255,angle:90,width:100,height:25},
+
+                {type:"block", name:"choco", x:670,y:192.5,width:200,height:25},
+
+                {type:"block", name:"choco", x:620,y:130,angle:90,width:100,height:25},
+                {type:"block", name:"choco", x:720,y:130,angle:90,width:100,height:25},
+                {type:"block", name:"choco", x:670,y:67.5,width:100,height:25},
+
+                {type:"villain", name:"burger",x:670,y:155,calories:590},
+                {type:"villain", name:"fries",x:670,y:405,calories:420},
+                {type:"villain", name:"sodacan",x:765,y:400,calories:150},
+                {type:"villain", name:"pizza",x:570,y:400,calories:350},
+
+                {type:"hero", name:"strawberry",x:30,y:415},
+                {type:"hero", name:"orange",x:80,y:405},
+                {type:"hero", name:"apple",x:140,y:405},
+            ]
+        },
+        {   // Level #7
+            foreground:'mars-foreground',
+            background:'clouds-background',
+            entities:[
+                {type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
+                {type:"ground", name:"mars", x:185,y:390,width:30,height:80,isStatic:true},
+
+                {type:"block", name:"mars", x:820,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"mars", x:720,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"mars", x:620,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"mars", x:520,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"glass", x:570,y:317.5,width:100,height:25},
+                {type:"block", name:"glass", x:670,y:317.5,width:100,height:25},
+                {type:"block", name:"glass", x:770,y:317.5,width:100,height:25},
+
+                {type:"block", name:"glass", x:570,y:255,angle:90,width:100,height:25},
+                {type:"block", name:"glass", x:670,y:255,angle:90,width:100,height:25},
+                {type:"block", name:"glass", x:770,y:255,angle:90,width:100,height:25},
+                {type:"block", name:"mars", x:720,y:192.5,width:100,height:25},
+                {type:"block", name:"mars", x:620,y:192.5,width:100,height:25},
+
+                {type:"block", name:"glass", x:620,y:130,angle:90,width:100,height:25},
+                {type:"block", name:"glass", x:720,y:130,angle:90,width:100,height:25},
+                {type:"block", name:"mars", x:670,y:67.5,width:100,height:25},
+
+                {type:"villain", name:"burger",x:670,y:155,calories:590},
+                {type:"villain", name:"fries",x:670,y:405,calories:420},
+                {type:"villain", name:"sodacan",x:765,y:400,calories:150},
+                {type:"villain", name:"pizza",x:570,y:400,calories:350},
+
+                {type:"hero", name:"strawberry",x:30,y:415},
+                {type:"hero", name:"orange",x:80,y:405},
+                {type:"hero", name:"apple",x:140,y:405},
+            ]
+        },
+        {   // level #8
+				foreground:'candyland2',
+				background:'clouds-background',
+				entities:[
+					{type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
+					{type:"ground", name:"choco", x:185,y:390,width:30,height:80,isStatic:true},
+
+
+					{type:"block", name:"choco", x:720,y:380,angle:90,width:300,height:25},
+					{type:"block", name:"choco", x:620,y:380,angle:90,width:300,height:25},
+
+
+					{type:"villain", name:"lollipop",x:665,y:400,calories:1500},
+
+
+					{type:"hero", name:"strawberry",x:30,y:415},
+					{type:"hero", name:"orange",x:80,y:405},
+					{type:"hero", name:"apple",x:140,y:405},
+				]
+			},
+			{   // level #9
+				foreground:'candyland',
+				background:'clouds-background',
+				entities:[
+					{type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
+					{type:"ground", name:"choco", x:185,y:390,width:30,height:80,isStatic:true},
+
+					{type:"block", name:"choco", x:820,y:380,angle:90,width:100,height:25},
+					{type:"block", name:"choco", x:720,y:380,angle:90,width:100,height:25},
+					{type:"block", name:"choco", x:620,y:380,angle:90,width:100,height:25},
+					{type:"block", name:"choco", x:520,y:380,angle:90,width:100,height:25},
+					{type:"block", name:"choco", x:570,y:317.5,width:100,height:25},
+					{type:"block", name:"choco", x:670,y:317.5,width:100,height:25},
+					{type:"block", name:"choco", x:770,y:317.5,width:100,height:25},
+
+					{type:"block", name:"choco", x:570,y:255,angle:90,width:100,height:25},
+					{type:"block", name:"choco", x:670,y:255,angle:90,width:100,height:25},
+					{type:"block", name:"choco", x:770,y:255,angle:90,width:100,height:25},
+					
+					{type:"block", name:"choco", x:670,y:192.5,width:200,height:25},
+
+					{type:"block", name:"spacecraft", x:670,y:100,width:50,height:150},
+
+					{type:"villain", name:"alien",x:670,y:405,calories:4200},
+					{type:"villain", name:"alien",x:765,y:400,calories:1500},
+					{type:"villain", name:"alien",x:570,y:400,calories:3500},
+
+					{type:"hero", name:"strawberry",x:30,y:415},
+					{type:"hero", name:"lemon",x:80,y:405},
+					{type:"hero", name:"apple",x:140,y:405},
+				]
+			},
+			{   // level #10
+				foreground:'candyland2',
+				background:'clouds-background',
+				entities:[
+					{type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
+					{type:"ground", name:"choco", x:185,y:390,width:30,height:80,isStatic:true},
+
+					{type:"block", name:"spacecraft", x:820,y:380,width:75,height:300},
+					{type:"block", name:"spacecraft", x:520,y:380,width:75,height:300},
+
+					{type:"villain", name:"alienboss",x:670,y:400,calories:4200},
+
+					{type:"hero", name:"strawberry",x:30,y:415},
+					{type:"hero", name:"lemon",x:80,y:405},
+					{type:"hero", name:"apple",x:140,y:405},
+				]
+			},
+			{   // level #10
+				foreground:'candyland3',
+				background:'clouds-background',
+				entities:[
+					{type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
+					{type:"ground", name:"choco", x:185,y:390,width:30,height:80,isStatic:true},
+
+					{type:"block", name:"gum", x:900,y:150,width:1000,height:20},
+
+					{type:"block", name:"gum", x:920,y:380,width:150,height:330},
+					{type:"block", name:"gum", x:550,y:380,width:50,height:200},
+					{type:"block", name:"gum", x:350,y:380,width:100,height:150},
+
+					{type:"villain", name:"candyboss",x:750,y:400,calories:4200},
+
+					{type:"hero", name:"strawberry",x:30,y:415},
+					{type:"hero", name:"lemon",x:80,y:405},
+					{type:"hero", name:"apple",x:140,y:405},
+				]
+			},
 	],
 
 	init:function(){
@@ -506,6 +701,12 @@ var levels = {
         
 		for (var i=0; i < levels.data.length; i++) {
 			var level = levels.data[i];
+            
+            // So levels are better displayed
+            if (i == 5 || i == 10){
+                html += '<br>';
+            }
+            
 			html += '<input type="button" value="'+(i+1)+'">';
 		};
 		$('#levelselectscreen').html(html);
@@ -571,6 +772,29 @@ var entities = {
 			friction:1.5,
 			restitution:0.2,
 		},
+        "gum":{
+            density:12.0,
+            friction:10.0,
+            restitution:1.0,
+        },
+		"choco":{
+			fullHealth:500,
+			density:0.7,
+			friction:0.4,
+			restitution:0.4,
+		},
+		"mars":{
+			fullHealth:1000,
+			density:3,
+			friction:0.4,
+			restitution:0.1,
+		},
+		"spacecraft":{
+			fullHealth:2000,
+			density:2,
+			friction:1,
+			restitution:0,
+		},
         
         // Vilains
 		"burger":{
@@ -608,6 +832,59 @@ var entities = {
 			friction:0.5,
 			restitution:0.6,
         },
+        "whooper":{
+            shape:"rectangle",
+            fullHealth:1400,
+            width:200,
+            height:160,
+            density:1,
+            friction:0.5,
+            restitution: 0,
+        },
+        "candy":{
+            shape:"circle",
+            fullHealth:300,
+            radius: 20,
+            density:0.6,
+            friction:0.5,
+            restitution: 0.1,
+        },
+        "lollipop":{
+			shape:"rectangle",
+			fullHealth:50000,
+			width:60,
+			height:200,
+			density:100,
+			friction:1,
+			restitution:0,
+		},
+		"alien":{
+			shape:"rectangle",
+			fullHealth:7000,
+			width:40,
+			height:90,
+			density:100,
+			friction:1,
+			restitution:0,
+		},
+		"alienboss":{
+			shape:"rectangle",
+			fullHealth:100000,
+			width:150,
+			height:400,
+			density:100,
+			friction:0.9,
+			restitution:0.1,
+		},
+		"candyboss":{
+			shape:"rectangle",
+			fullHealth:75000,
+			width:150,
+			height:150,
+			density:100,
+			friction:0.9,
+			restitution:0.1,
+		},
         
         // "Heroes"
 		"apple":{
@@ -658,6 +935,14 @@ var entities = {
 			friction:0.5,
 			restitution:0.01,
         },
+        "lemon":{
+            havePower: false,
+			shape:"circle",
+			radius:20,
+			density:1.5,
+			friction:0.1,
+			restitution:0.5,
+		},
 	},
     
 	create:function(entity){
@@ -685,10 +970,11 @@ var entities = {
 				box2d.createRectangle(entity,definition);
 				break;
                 
-			case "hero":                
+			case "hero":         
+                entity.havePower = definition.havePower;
+                
 			case "villain":
                 
-                entity.havePower = definition.havePower;
 				entity.health = definition.fullHealth;
 				entity.fullHealth = definition.fullHealth;
 				entity.sprite = loader.loadImage("images/entities/"+entity.name+".png");
@@ -894,10 +1180,14 @@ var box2d = {
 	scale:30,
 	init:function(){
         
-		if(game.currentLevel.number == 2){
+		if(game.currentLevel.number == 2 ){
             var gravity = new b2Vec2(0,1.625); // Gravity on moon ~ 1.625ms2
         }else{
-            var gravity = new b2Vec2(0,9.8);   // Gravity on earth ~ 9.8ms2
+            if (game.currentLevel.number > 6 ) {
+        	   var gravity = new b2Vec2(0,3.71);  // Gravity on Mars ~ 3.71ms2
+            } else {
+        	   var gravity = new b2Vec2(0,9.8);   // Gravity on earth ~ 9.8ms2  
+            }
         }
         
 		var allowSleep = true; // So game is faster
